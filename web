@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Control del Arduino</title>
+  <style>
+    .container {
+      text-align: center;
+      margin-top: 50px;
+    }
+    .button {
+      padding: 10px 20px;
+      font-size: 18px;
+      margin: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Control del Arduino</h1>
+    <button class="button" onclick="enviarDatos('motor')">Encender Motor</button>
+    <button class="button" onclick="enviarDatos('multitoma1')">Activar Multitoma 1</button>
+    <button class="button" onclick="enviarDatos('multitoma2')">Activar Multitoma 2</button>
+    <form onsubmit="event.preventDefault(); enviarTiempo();">
+      <input type="number" id="tiempoInput" placeholder="Tiempo de activación (segundos)" required>
+      <button type="submit" class="button">Enviar Tiempo de Activación</button>
+    </form>
+  </div>
+
+  <script>
+    function enviarDatos(dispositivo) {
+      var url = "http://192.168.1.100/control?dispositivo=" + dispositivo;
+      fetch(url)
+        .then(response => console.log("Datos enviados al Arduino"))
+        .catch(error => console.error("Error al enviar los datos: ", error));
+    }
+
+    function enviarTiempo() {
+      var tiempo = document.getElementById("tiempoInput").value;
+      var url = "http://192.168.1.100/control?tiempo=" + tiempo;
+      fetch(url)
+        .then(response => console.log("Tiempo enviado al Arduino"))
+        .catch(error => console.error("Error al enviar el tiempo: ", error));
+    }
+  </script>
+</body>
+</html>
